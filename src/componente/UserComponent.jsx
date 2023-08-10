@@ -2,7 +2,6 @@ import UserItem from "./UserItem";
 
 function UserComponent(props) {
     const {users} = props;
-
     return (
         <>
             {users.map((user,index) => {

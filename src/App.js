@@ -1,5 +1,7 @@
 import './App.css';
+import PostComponent from './componente/PostComponent';
 import UserComponent from './componente/UserComponent';
+import { useEffect, useState } from 'react';
 
 const psgUsers = [
   {
@@ -32,10 +34,35 @@ const psgUsers = [
   },
 ];
 
+
 function App() {
+  const [usersFromApi, setUsersFromApi] = useState([]);
+  const [postsFromApi, setPostsFromApi] = useState([]);
+  const [listDisplay, setListDisplay] = useState("users");
+  
+  useEffect(() => {    
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then(response => response.json())
+      .then((data) => {
+        setUsersFromApi(data);
+      });
+    fetch("https://jsonplaceholder.typicode.com/posts")
+      .then(response => response.json())
+      .then((data) => {
+        setPostsFromApi(data);
+      })
+  }, [])
+
   return (
     <div className="App">
-      <UserComponent users={psgUsers}/>
+      <button>Afiseaza Useri</button>
+      <button>Afiseaza Postari</button>
+      {(listDisplay === 'users') && <UserComponent users={psgUsers}/>}
+      {(listDisplay === 'users') && <UserComponent users={usersFromApi}/>}
+      {(listDisplay === 'posts') && <PostComponent posts={postsFromApi}/>}
+
+
+      
     </div>
   );
 }
